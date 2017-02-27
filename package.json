@@ -1,0 +1,23 @@
+{
+  "name": "jasmine-marbles",
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "rimraf release",
+    "build:ts": "tsc",
+    "build:docs": "cpy LICENSE package.json README.md release",
+    "prebuild": "clean",
+    "build": "npm run build:ts && npm run build:docs",
+    "postversion": "npm run build"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.43",
+    "@types/node": "^7.0.5",
+    "cpy-cli": "^1.0.1",
+    "rimraf": "^2.6.1",
+    "rxjs": "^5.2.0",
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+    "lodash.isequal": "^4.5.0"
+  }
+}
