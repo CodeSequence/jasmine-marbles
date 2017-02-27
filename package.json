@@ -5,7 +5,7 @@
     "clean": "rimraf release",
     "build:ts": "tsc",
     "build:docs": "cpy LICENSE package.json README.md release",
-    "prebuild": "clean",
+    "prebuild": "npm run clean",
     "build": "npm run build:ts && npm run build:docs",
     "postversion": "npm run build"
   },
