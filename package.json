@@ -1,6 +1,6 @@
 {
   "name": "jasmine-marbles",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "clean": "rimraf release",
     "build:ts": "tsc",
