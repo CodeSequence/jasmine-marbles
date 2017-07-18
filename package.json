@@ -10,12 +10,12 @@
     "postversion": "npm run build"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.43",
-    "@types/node": "^7.0.5",
+    "@types/jasmine": "^2.5.53",
+    "@types/node": "^8.0.14",
     "cpy-cli": "^1.0.1",
     "rimraf": "^2.6.1",
-    "rxjs": "^5.2.0",
-    "typescript": "^2.2.1"
+    "rxjs": "^5.4.2",
+    "typescript": "^2.4.1"
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0"
