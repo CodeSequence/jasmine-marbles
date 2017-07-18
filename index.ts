@@ -27,7 +27,7 @@ export function time(marbles: string): number {
 
 declare global {
   namespace jasmine {
-    interface Matchers {
+    interface Matchers<T> {
       toBeObservable: any;
     }
   }
