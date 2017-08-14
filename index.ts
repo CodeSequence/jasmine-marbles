@@ -32,7 +32,6 @@ export function time(marbles: string): number {
 declare global {
   namespace jasmine {
     interface Matchers<T> {
-      toBeObservable: any;
       toEqualObservable: any;
     }
   }
@@ -44,7 +43,7 @@ declare global {
 * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
 *
 */
-export function materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessage[] {
+function materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessage[] {
   const messages: TestMessage[] = [];
   const scheduler = getTestScheduler();
 
@@ -67,19 +66,6 @@ export function materializeInnerObservable(observable: Observable<any>, outerFra
   );
   return messages;
 }
-
-
-jasmine.getEnv().beforeAll(() => jasmine.addMatchers({
-  toBeObservable: () => ({
-    compare: function (actual: TestObservable, { fixture }: TestObservable) {
-      getTestScheduler().expectObservable(actual).toBe(fixture.marbles, fixture.values, fixture.error);
-      getTestScheduler().flush();
-
-      return { pass: true };
-    }
-  })
-}));
-
 
 /*
 * Performs toEqual as an alternative to toBeObservable.
