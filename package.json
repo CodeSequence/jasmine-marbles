@@ -1,23 +1,54 @@
 {
   "name": "jasmine-marbles",
   "version": "0.1.0",
+  "module": "index.js",
+  "es2015": "es6/index.js",
+  "main": "bundles/jasmine-marbles.umd.js",  
   "scripts": {
     "clean": "rimraf release",
     "build:ts": "tsc",
+    "build:es6": "tsc -p tsconfig.es6.json",
     "build:docs": "cpy LICENSE package.json README.md release",
     "prebuild": "npm run clean",
-    "build": "npm run build:ts && npm run build:docs",
-    "postversion": "npm run build"
+    "build": "npm run build:ts && npm run build:umd && npm run build:docs",
+    "postversion": "npm run build",
+    "build:umd": "npm run build:es6 && rollup -c rollup.config.js",
+    "test:unit": "node ./tests.js",
+    "test": "nyc yarn run test:unit",
+    "precommit": "yarn run prettier",
+    "prettier": "prettier --parser typescript --single-quote --trailing-comma all --write \"./**/*.ts\""
   },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.spec",
+      "**/spec/**/*"
+    ],
+    "include": [
+      "**/*.ts"
+    ]
+  },  
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
     "@types/node": "^8.0.14",
     "cpy-cli": "^1.0.1",
+    "husky": "^0.14.3",
+    "jasmine": "^2.5.3",
+    "jasmine-core": "~2.5.2",
+    "nyc": "^10.1.2",
+    "prettier": "^1.5.2",
     "rimraf": "^2.6.1",
+    "rollup": "^0.41.4",
     "rxjs": "^5.4.2",
+    "ts-node": "^3.1.0",
     "typescript": "^2.4.1"
   },
+  "peerDependencies": {
+    "rxjs": "^5.0.0"
+  },
   "dependencies": {
-    "lodash.isequal": "^4.5.0"
+    "lodash": "^4.5.0"
   }
 }

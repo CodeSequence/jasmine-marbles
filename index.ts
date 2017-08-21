@@ -1,24 +1,35 @@
-import { TestHotObservable, TestColdObservable, TestObservable } from './src/test-observables';
-import { TestScheduler } from './src/scheduler';
-import { observableMatcher } from './src/matcher';
+import { TestScheduler } from 'rxjs/testing/TestScheduler';
+import {
+  TestHotObservable,
+  TestColdObservable,
+  TestObservable,
+} from './src/test-observables';
+import {
+  initTestScheduler,
+  getTestScheduler,
+  resetTestScheduler,
+} from './src/scheduler';
 
+export {
+  getTestScheduler,
+  initTestScheduler,
+  resetTestScheduler,
+} from './src/scheduler';
 
-let scheduler: TestScheduler | null;
-
-export function getTestScheduler() {
-  if (scheduler) {
-    return scheduler;
-  }
-
-  throw new Error('No test scheduler initialized');
+export function hot(
+  marbles: string,
+  values?: any,
+  error?: any,
+): TestHotObservable {
+  return new TestHotObservable(marbles, values, error);
 }
 
-export function hot(marbles: string, values?: any, error?: any): TestHotObservable {
-  return getTestScheduler().createHotObservable(marbles, values, error);
-}
-
-export function cold(marbles: string, values?: any, error?: any): TestColdObservable {
-  return getTestScheduler().createColdObservable(marbles, values, error);
+export function cold(
+  marbles: string,
+  values?: any,
+  error?: any,
+): TestColdObservable {
+  return new TestColdObservable(marbles, values, error);
 }
 
 export function time(marbles: string): number {
@@ -33,16 +44,27 @@ declare global {
   }
 }
 
-jasmine.getEnv().beforeAll(() => jasmine.addMatchers({
-  toBeObservable: () => ({
-    compare: function (actual: TestObservable, { fixture }: TestObservable) {
-      getTestScheduler().expectObservable(actual).toBe(fixture.marbles, fixture.values, fixture.error);
-      getTestScheduler().flush();
+export function addMatchers() {
+  jasmine.addMatchers({
+    toBeObservable: () => ({
+      compare: function(actual: TestObservable, test: TestObservable) {
+        getTestScheduler()
+          .expectObservable(actual)
+          .toBe(test.marbles, test.values, test.error);
+        getTestScheduler().flush();
 
-      return { pass: true };
-    }
-  })
-}));
+        return { pass: true };
+      },
+    }),
+  });
+}
 
-jasmine.getEnv().beforeEach(() => scheduler = new TestScheduler(observableMatcher));
-jasmine.getEnv().afterEach(() => {getTestScheduler().flush(); scheduler = null; });
+if (typeof module === 'object' && module.exports) {
+  jasmine.getEnv().beforeAll(() => addMatchers());
+
+  jasmine.getEnv().beforeEach(() => initTestScheduler());
+  jasmine.getEnv().afterEach(() => {
+    getTestScheduler().flush();
+    resetTestScheduler();
+  });
+}
