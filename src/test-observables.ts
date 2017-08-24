@@ -1,23 +1,36 @@
 import { Scheduler } from 'rxjs/Scheduler';
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { ColdObservable } from 'rxjs/testing/ColdObservable';
-import { HotObservable } from 'rxjs/testing/HotObservable';
+import { Observable } from 'rxjs/Observable';
+import { getTestScheduler } from './scheduler';
 
-export interface ObservableTestFixture {
-  marbles: string;
-  values?: any;
-  error?: any;
-}
+export class TestColdObservable extends Observable<any> {
+  constructor(
+    public marbles: string,
+    public values?: any[],
+    public error?: any,
+  ) {
+    super();
 
-export class TestColdObservable extends ColdObservable<any> {
-  constructor(public fixture: ObservableTestFixture, messages: TestMessage[], scheduler: Scheduler) {
-    super(messages, scheduler);
+    this.source = getTestScheduler().createColdObservable(
+      marbles,
+      values,
+      error,
+    );
   }
 }
 
-export class TestHotObservable extends HotObservable<any> {
-  constructor(public fixture: ObservableTestFixture, messages: TestMessage[], scheduler: Scheduler) {
-    super(messages, scheduler);
+export class TestHotObservable extends Observable<any> {
+  constructor(
+    public marbles: string,
+    public values?: any[],
+    public error?: any,
+  ) {
+    super();
+
+    this.source = getTestScheduler().createHotObservable(
+      marbles,
+      values,
+      error,
+    );
   }
 }
 
