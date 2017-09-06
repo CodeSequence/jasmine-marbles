@@ -1,16 +1,11 @@
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mapTo';
-import {
-  hot,
-  cold,
-  time,
-  getTestScheduler,
-  resetTestScheduler,
-  initTestScheduler,
-} from '../index';
+
 import { of } from 'rxjs/observable/of';
 import { timer } from 'rxjs/observable/timer';
 import { Subject } from 'rxjs/Subject';
+
+import { cold, getTestScheduler, hot, initTestScheduler, resetTestScheduler, time } from '../index';
 
 describe('Integration', () => {
   it('should work with a cold observable', () => {
