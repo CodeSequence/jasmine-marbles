@@ -7,6 +7,8 @@ import { TestScheduler } from 'rxjs/testing/TestScheduler';
 import { getTestScheduler, initTestScheduler, resetTestScheduler } from './src/scheduler';
 import { TestColdObservable, TestHotObservable, TestObservable } from './src/test-observables';
 
+export { getTestScheduler, initTestScheduler, resetTestScheduler } from './src/scheduler';
+
 export function hot(marbles: string, values?: any, error?: any): TestHotObservable {
   return new TestHotObservable(marbles, values, error);
 }
@@ -27,32 +29,37 @@ declare global {
   }
 }
 
-
 /*
 * Based on source code found in rxjs library
 * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
 *
 */
-function materializeInnerObservable(observable: Observable<any>, outerFrame: number): TestMessage[] {
+function materializeInnerObservable(
+  observable: Observable<any>,
+  outerFrame: number,
+): TestMessage[] {
   const messages: TestMessage[] = [];
   const scheduler = getTestScheduler();
 
   observable.subscribe(
     value => {
       messages.push({
-        frame: scheduler.frame - outerFrame, notification: Notification.createNext(value),
+        frame: scheduler.frame - outerFrame,
+        notification: Notification.createNext(value),
       });
     },
     err => {
       messages.push({
-        frame: scheduler.frame - outerFrame, notification: Notification.createError(err),
+        frame: scheduler.frame - outerFrame,
+        notification: Notification.createError(err),
       });
     },
     () => {
       messages.push({
-        frame: scheduler.frame - outerFrame, notification: Notification.createComplete(),
+        frame: scheduler.frame - outerFrame,
+        notification: Notification.createComplete(),
       });
-    }
+    },
   );
   return messages;
 }
@@ -75,19 +82,33 @@ export function addMatchers() {
                 value = materializeInnerObservable(value, scheduler.frame);
               }
 
-              results.push({ frame: scheduler.frame, notification: Notification.createNext(value) });
+              results.push({
+                frame: scheduler.frame,
+                notification: Notification.createNext(value),
+              });
             },
             (err: any) => {
-              results.push({ frame: scheduler.frame, notification: Notification.createError(err) });
+              results.push({
+                frame: scheduler.frame,
+                notification: Notification.createError(err),
+              });
             },
             () => {
-              results.push({ frame: scheduler.frame, notification: Notification.createComplete() });
-            }
+              results.push({
+                frame: scheduler.frame,
+                notification: Notification.createComplete(),
+              });
+            },
           );
         });
         scheduler.flush();
 
-        const expected = TestScheduler.parseMarbles(fixture.marbles, fixture.values, fixture.error, true);
+        const expected = TestScheduler.parseMarbles(
+          fixture.marbles,
+          fixture.values,
+          fixture.error,
+          true,
+        );
 
         expect(results).toEqual(expected);
 
