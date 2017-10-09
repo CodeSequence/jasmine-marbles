@@ -1,9 +1,9 @@
 {
   "name": "jasmine-marbles",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "module": "index.js",
   "es2015": "es6/index.js",
-  "main": "bundles/jasmine-marbles.umd.js",  
+  "main": "bundles/jasmine-marbles.umd.js",
   "scripts": {
     "clean": "rimraf release",
     "build:ts": "tsc",
@@ -29,7 +29,7 @@
     "include": [
       "**/*.ts"
     ]
-  },  
+  },
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
     "@types/node": "^8.0.14",
