@@ -1,6 +1,5 @@
 import { Notification } from 'rxjs/Notification';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { TestMessage } from 'rxjs/testing/TestMessage';
 import { TestScheduler } from 'rxjs/testing/TestScheduler';
 
@@ -34,10 +33,8 @@ declare global {
 * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
 *
 */
-function materializeInnerObservable(
-  observable: Observable<any>,
-  outerFrame: number,
-): TestMessage[] {
+function materializeInnerObservable(observable: Observable<any>,
+                                    outerFrame: number,): TestMessage[] {
   const messages: TestMessage[] = [];
   const scheduler = getTestScheduler();
 
@@ -69,11 +66,10 @@ export function addMatchers() {
     toBeObservable: () => ({
       compare: function (actual: TestObservable, fixture: TestObservable) {
         const results: TestMessage[] = [];
-        let subscription: Subscription;
         const scheduler = getTestScheduler();
 
         scheduler.schedule(() => {
-          subscription = actual.subscribe(
+          actual.subscribe(
             (x: any) => {
               let value = x;
 
