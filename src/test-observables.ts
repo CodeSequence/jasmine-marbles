@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
 
 import { getTestScheduler } from './scheduler';
 
@@ -16,6 +17,10 @@ export class TestColdObservable extends Observable<any> {
       error,
     );
   }
+
+  getSubscriptions(): SubscriptionLog[] {
+    return this.source['subscriptions'];
+  }
 }
 
 export class TestHotObservable extends Observable<any> {
@@ -31,6 +36,10 @@ export class TestHotObservable extends Observable<any> {
       values,
       error,
     );
+  }
+
+  getSubscriptions(): SubscriptionLog[] {
+    return this.source['subscriptions'];
   }
 }
 
