@@ -41,12 +41,12 @@
     "prettier": "^1.5.2",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.4",
-    "rxjs": "^5.4.2",
+    "rxjs": "^6.0.0-beta.1",
     "ts-node": "^3.1.0",
     "typescript": "^2.4.1"
   },
   "peerDependencies": {
-    "rxjs": "^5.0.0"
+    "rxjs": "^6.0.0-beta.1"
   },
   "dependencies": {
     "lodash": "^4.5.0"

@@ -4,15 +4,13 @@ export default {
   format: 'umd',
   moduleName: 'jasmine-marbles',
   globals: {
-    'rxjs/Observable': 'Rx',
-    'rxjs/Scheduler': 'Rx',
-    'rxjs/testing/TestScheduler': 'Rx',
+    'rxjs': 'Rx',
+    'rxjs/testing': 'Rx',
     'lodash': '_'
   },
   external: [
-    'rxjs/Observable',
-    'rxjs/Scheduler',
-    'rxjs/testing/TestScheduler',
+    'rxjs',
+    'rxjs/testing',
     'lodash'
   ],
   context: 'window'
