@@ -4,6 +4,7 @@
   "module": "index.js",
   "es2015": "es6/index.js",
   "main": "bundles/jasmine-marbles.umd.js",
+  "license": "MIT",
   "scripts": {
     "clean": "rimraf release",
     "build:ts": "tsc",
