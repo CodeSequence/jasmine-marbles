@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
+import { Observable } from 'rxjs';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 
 import { getTestScheduler } from './scheduler';
 

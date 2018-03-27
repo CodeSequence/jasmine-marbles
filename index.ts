@@ -1,9 +1,9 @@
-import { Notification } from 'rxjs/Notification';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { SubscriptionLog } from 'rxjs/testing/SubscriptionLog';
-import { TestMessage } from 'rxjs/testing/TestMessage';
-import { TestScheduler } from 'rxjs/testing/TestScheduler';
+import { Notification } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
+import { TestMessage } from 'rxjs/internal/testing/TestMessage';
+import { TestScheduler } from 'rxjs/testing';
 
 import {
   getTestScheduler,

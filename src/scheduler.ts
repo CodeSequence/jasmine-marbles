@@ -1,4 +1,4 @@
-import { TestScheduler } from 'rxjs/testing/TestScheduler';
+import { TestScheduler } from 'rxjs/testing';
 
 import { observableMatcher } from './matcher';
 

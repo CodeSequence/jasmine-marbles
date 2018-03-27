@@ -1,10 +1,6 @@
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/mapTo';
+import { tap, mapTo } from 'rxjs/operators';
 
-import { of } from 'rxjs/observable/of';
-import { timer } from 'rxjs/observable/timer';
-import { Subject } from 'rxjs/Subject';
+import { of, timer, Subject, concat } from 'rxjs';
 
 import {
   cold,
@@ -29,7 +25,7 @@ describe('Integration', () => {
 
     const expected = hot('--a--b', { a: 1, b: 2 });
 
-    expect(expected.do(v => provided.next(v))).toBeObservable(expected);
+    expect(expected.pipe(tap(v => provided.next(v)))).toBeObservable(expected);
   });
 
   it('should support testing subscriptions on hot observable', () => {
@@ -48,7 +44,7 @@ describe('Integration', () => {
     const sub1 = '^------!';
     const sub2 = '-------^------!';
 
-    expect(obs1.concat(obs2)).toBeObservable(expected);
+    expect(concat(obs1, obs2)).toBeObservable(expected);
     expect(obs1).toHaveSubscriptions(sub1);
     expect(obs2).toHaveSubscriptions(sub2);
   });
@@ -56,7 +52,7 @@ describe('Integration', () => {
   it('should work with the test scheduler', () => {
     const delay = time('-----a|');
     const val = 1;
-    const provided = timer(delay, getTestScheduler()).mapTo(val);
+    const provided = timer(delay, getTestScheduler()).pipe(mapTo(val));
 
     const expected = hot('------(a|)', { a: val });
 
