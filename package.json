@@ -1,6 +1,6 @@
 {
   "name": "jasmine-marbles",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "module": "index.js",
   "es2015": "es6/index.js",
   "main": "bundles/jasmine-marbles.umd.js",
