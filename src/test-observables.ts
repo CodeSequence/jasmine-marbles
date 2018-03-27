@@ -19,7 +19,7 @@ export class TestColdObservable extends Observable<any> {
   }
 
   getSubscriptions(): SubscriptionLog[] {
-    return this.source['subscriptions'];
+    return (this.source as any)['subscriptions'];
   }
 }
 
@@ -39,7 +39,7 @@ export class TestHotObservable extends Observable<any> {
   }
 
   getSubscriptions(): SubscriptionLog[] {
-    return this.source['subscriptions'];
+    return (this.source as any)['subscriptions'];
   }
 }
 

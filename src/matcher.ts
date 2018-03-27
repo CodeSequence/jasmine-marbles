@@ -204,7 +204,7 @@
 
 import * as _ from 'lodash';
 
-function stringify(x): string {
+function stringify(x: any): string {
   return JSON.stringify(x, function(key, value) {
     if (Array.isArray(value)) {
       return (
@@ -222,7 +222,7 @@ function stringify(x): string {
     .replace(/\\n/g, '\n');
 }
 
-function deleteErrorNotificationStack(marble) {
+function deleteErrorNotificationStack(marble: any) {
   const { notification } = marble;
   if (notification) {
     const { kind, exception } = notification;
@@ -236,20 +236,20 @@ function deleteErrorNotificationStack(marble) {
   return marble;
 }
 
-export function observableMatcher(actual, expected) {
+export function observableMatcher(actual: any, expected: any) {
   if (Array.isArray(actual) && Array.isArray(expected)) {
     actual = actual.map(deleteErrorNotificationStack);
     expected = expected.map(deleteErrorNotificationStack);
-    const passed = _.isEqual(actual, expected);
+    const passed: any = _.isEqual(actual, expected);
     if (passed) {
       return;
     }
 
     let message = '\nExpected \n';
-    actual.forEach(x => (message += `\t${stringify(x)}\n`));
+    actual.forEach((x: any) => (message += `\t${stringify(x)}\n`));
 
     message += '\t\nto deep equal \n';
-    expected.forEach(x => (message += `\t${stringify(x)}\n`));
+    expected.forEach((x: any) => (message += `\t${stringify(x)}\n`));
 
     expect(passed).toEqual(message);
   } else {

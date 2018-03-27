@@ -1,6 +1,4 @@
-import { Notification } from 'rxjs';
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs';
+import { Notification, Observable, Subscription } from 'rxjs';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { TestScheduler } from 'rxjs/testing';

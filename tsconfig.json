@@ -15,7 +15,8 @@
     "lib": ["es2015", "dom"],
     "target": "es5",
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "strict": true
   },
   "files": [
     "index.ts"
