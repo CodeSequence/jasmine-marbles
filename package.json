@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
+    "@types/lodash": "^4.14.106",
     "@types/node": "^8.0.14",
     "cpy-cli": "^1.0.1",
     "husky": "^0.14.3",
