@@ -3,7 +3,8 @@
   "version": "0.3.0",
   "module": "index.js",
   "es2015": "es6/index.js",
-  "main": "bundles/jasmine-marbles.umd.js",
+  "browser": "bundles/jasmine-marbles.umd.js",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf release",
