@@ -37,6 +37,15 @@ describe('Integration', () => {
     expect(source).toHaveSubscriptions(subscription);
   });
 
+  it('should trim marble strings', () => {
+    const source = hot('  ---a-^b---c-|');
+    const expected = cold('    -b---c-|');
+    const subscription = '     ^------!';
+
+    expect(source).toBeObservable(expected);
+    expect(source).toHaveSubscriptions(subscription);
+  });
+
   it('should identify subscription points', () => {
     const obs1 = cold('-a---b-|');
     const obs2 = cold('-c---d-|');
