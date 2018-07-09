@@ -25,7 +25,7 @@ export function hot(
   values?: any,
   error?: any,
 ): TestHotObservable {
-  return new TestHotObservable(marbles, values, error);
+  return new TestHotObservable(marbles.trim(), values, error);
 }
 
 export function cold(
@@ -33,11 +33,11 @@ export function cold(
   values?: any,
   error?: any,
 ): TestColdObservable {
-  return new TestColdObservable(marbles, values, error);
+  return new TestColdObservable(marbles.trim(), values, error);
 }
 
 export function time(marbles: string): number {
-  return getTestScheduler().createTime(marbles);
+  return getTestScheduler().createTime(marbles.trim());
 }
 
 declare global {

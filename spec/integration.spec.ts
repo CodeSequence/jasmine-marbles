@@ -28,6 +28,13 @@ describe('Integration', () => {
     expect(expected.pipe(tap(v => provided.next(v)))).toBeObservable(expected);
   });
 
+  it('should trim spaces of marble string, if any', () => {
+    const source = hot('  -a-^(bc)-|  ');
+    const expected = cold('  -(bc)-|  ');
+
+    expect(source).toBeObservable(expected);
+  });
+
   it('should support testing subscriptions on hot observable', () => {
     const source = hot('-a-^b---c-|');
     const expected = cold('-b---c-|');
