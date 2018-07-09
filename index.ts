@@ -6,24 +6,24 @@ import { TestScheduler } from 'rxjs/testing';
 import {
   getTestScheduler,
   initTestScheduler,
-  resetTestScheduler,
+  resetTestScheduler
 } from './src/scheduler';
 import {
   TestColdObservable,
   TestHotObservable,
-  TestObservable,
+  TestObservable
 } from './src/test-observables';
 
 export {
   getTestScheduler,
   initTestScheduler,
-  resetTestScheduler,
+  resetTestScheduler
 } from './src/scheduler';
 
 export function hot(
   marbles: string,
   values?: any,
-  error?: any,
+  error?: any
 ): TestHotObservable {
   return new TestHotObservable(marbles.trim(), values, error);
 }
@@ -31,7 +31,7 @@ export function hot(
 export function cold(
   marbles: string,
   values?: any,
-  error?: any,
+  error?: any
 ): TestColdObservable {
   return new TestColdObservable(marbles.trim(), values, error);
 }
@@ -47,6 +47,12 @@ declare global {
       toHaveSubscriptions: any;
     }
   }
+  namespace jest {
+    interface Matchers<T> {
+      toBeObservable: any;
+      toHaveSubscriptions: any;
+    }
+  }
 }
 
 /*
@@ -56,7 +62,7 @@ declare global {
 */
 function materializeInnerObservable(
   observable: Observable<any>,
-  outerFrame: number,
+  outerFrame: number
 ): TestMessage[] {
   const messages: TestMessage[] = [];
   const scheduler = getTestScheduler();
@@ -65,21 +71,21 @@ function materializeInnerObservable(
     value => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createNext(value),
+        notification: Notification.createNext(value)
       });
     },
     err => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createError(err),
+        notification: Notification.createError(err)
       });
     },
     () => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createComplete(),
+        notification: Notification.createComplete()
       });
-    },
+    }
   );
   return messages;
 }
@@ -91,13 +97,13 @@ export function addMatchers() {
         const marblesArray: string[] =
           typeof marbles === 'string' ? [marbles] : marbles;
         const results: SubscriptionLog[] = marblesArray.map(marbles =>
-          TestScheduler.parseMarblesAsSubscriptions(marbles),
+          TestScheduler.parseMarblesAsSubscriptions(marbles)
         );
 
         expect(results).toEqual(actual.getSubscriptions());
 
         return { pass: true };
-      },
+      }
     }),
     toBeObservable: () => ({
       compare: function(actual: TestObservable, fixture: TestObservable) {
@@ -117,21 +123,21 @@ export function addMatchers() {
 
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createNext(value),
+                notification: Notification.createNext(value)
               });
             },
             (err: any) => {
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createError(err),
+                notification: Notification.createError(err)
               });
             },
             () => {
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createComplete(),
+                notification: Notification.createComplete()
               });
-            },
+            }
           );
         });
         scheduler.flush();
@@ -140,14 +146,14 @@ export function addMatchers() {
           fixture.marbles,
           fixture.values,
           fixture.error,
-          true,
+          true
         );
 
         expect(results).toEqual(expected);
 
         return { pass: true };
-      },
-    }),
+      }
+    })
   });
 }
 
