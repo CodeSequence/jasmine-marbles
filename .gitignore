@@ -1,3 +1,12 @@
+.DS_STORE
+
+# IDE while developing the package
+.idea/
+.settings/
+modules/.settings
+.vscode
+modules/.vscode
+
 # Logs
 logs
 *.log
