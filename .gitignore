@@ -47,3 +47,5 @@ jspm_packages
 
 # Build Output
 release
+dist
+bazel-*

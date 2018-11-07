@@ -1,0 +1,33 @@
+{
+  "name": "jasmine-marbles",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Testing helper library for marble testing with RxJS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngrx/platform.git"
+  },
+  "keywords": [
+    "Jasmine",
+    "RxJS",
+    "Observables",
+    "Testing",
+    "Marble Diagrams"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/synapse-wireless-labs/jasmine-marbles/issues"
+  },
+  "homepage": "https://github.com/synapse-wireless-labs/jasmine-marbles#readme",
+  "peerDependencies": {
+    "rxjs": "^6.1.0"
+  },
+  "sideEffects": false,
+  "main": "./bundles/jasmine-marbles.umd.js",
+  "fesm5": "./fesm5/jasmine-marbles.js",
+  "fesm2015": "./fesm2015/jasmine-marbles.js",
+  "esm5": "./esm5/index.js",
+  "esm2015": "./esm2015/index.js",
+  "typings": "./index.d.ts",
+  "module": "./fesm5/jasmine-marbles.js",
+  "es2015": "./fesm2015/jasmine-marbles.js"  
+}

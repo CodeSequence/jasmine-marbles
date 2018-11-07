@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "declaration": true,
     "stripInternal": true,
     "emitDecoratorMetadata": true,
@@ -9,18 +8,13 @@
     "moduleResolution": "node",
     "noEmitOnError": false,
     "outDir": "./release",
-    "rootDir": ".",
     "sourceMap": true,
     "inlineSources": true,
     "lib": ["es2015", "dom"],
-    "target": "es5",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "strict": true
   },
-  "files": [
-    "index.ts"
-  ],
   "bazelOptions": {
     "suppressTsconfigOverrideWarnings": true
   }

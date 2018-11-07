@@ -202,7 +202,7 @@
  limitations under the License.
  */
 
-import { isEqual } from 'lodash';
+import * as _ from 'lodash';
 
 function stringify(x: any): string {
   return JSON.stringify(x, function(key, value) {
@@ -240,7 +240,7 @@ export function observableMatcher(actual: any, expected: any) {
   if (Array.isArray(actual) && Array.isArray(expected)) {
     actual = actual.map(deleteErrorNotificationStack);
     expected = expected.map(deleteErrorNotificationStack);
-    const passed: any = isEqual(actual, expected);
+    const passed: any = _.isEqual(actual, expected);
     if (passed) {
       return;
     }
