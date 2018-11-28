@@ -48,7 +48,7 @@ declare global {
     }
   }
   namespace jest {
-    interface Matchers<T> {
+    interface Matchers<R> {
       toBeObservable: any;
       toHaveSubscriptions: any;
     }
