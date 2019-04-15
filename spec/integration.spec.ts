@@ -77,4 +77,30 @@ describe('Integration', () => {
 
     initTestScheduler();
   });
+
+  it('should support time progression syntax for hot', () => {
+    const provided = timer(100, getTestScheduler()).pipe(mapTo('a'));
+    const expected = hot('100ms (a|)');
+
+    expect(provided).toBeObservable(expected);
+  });
+
+  it('should support time progression syntax for cold', () => {
+    const provided = timer(100, getTestScheduler()).pipe(mapTo('a'));
+    const expected = cold('100ms (a|)');
+
+    expect(provided).toBeObservable(expected);
+  });
+
+  it('should support TestScheduler.run()', () => {
+    const scheduler = getTestScheduler();
+
+    scheduler.run(({ expectObservable }) => {
+      const delay = time('-----a|');
+      const val = 1;
+      const provided = timer(delay, scheduler).pipe(mapTo(val));
+
+      expectObservable(provided).toBe('------(a|)', { a: val });
+    });
+  });
 });
