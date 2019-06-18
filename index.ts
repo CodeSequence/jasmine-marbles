@@ -158,7 +158,7 @@ export function addMatchers() {
   });
 }
 
-if (typeof module === 'object' && module.exports) {
+export function setupEnvironment() {
   jasmine.getEnv().beforeAll(() => addMatchers());
 
   jasmine.getEnv().beforeEach(() => initTestScheduler());
@@ -167,3 +167,5 @@ if (typeof module === 'object' && module.exports) {
     resetTestScheduler();
   });
 }
+
+setupEnvironment();
