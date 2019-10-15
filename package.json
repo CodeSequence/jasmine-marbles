@@ -39,7 +39,7 @@
     "husky": "^0.14.3",
     "jasmine": "^2.8.0",
     "jasmine-core": "^2.8.0",
-    "nyc": "^10.1.2",
+    "nyc": "^14",
     "prettier": "^1.5.2",
     "rimraf": "^2.6.1",
     "rollup": "^0.41.4",
@@ -51,6 +51,6 @@
     "rxjs": "^6.4.0"
   },
   "dependencies": {
-    "lodash": "^4.5.0"
+    "lodash": "^4.17.12"
   }
 }
