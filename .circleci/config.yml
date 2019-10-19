@@ -14,9 +14,6 @@ var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}-0.1
 var_2: &run_in_node
   docker:
     - image: circleci/node:10.12
-var_5: &run_in_browser
-  docker:
-    - image: circleci/node:10.12-browsers
 
 jobs:
   install:
@@ -45,7 +42,7 @@ jobs:
 
 workflows:
   version: 2
-  build-test-deploy:
+  build-test:
     jobs:
       - test_and_build:
         requires:
