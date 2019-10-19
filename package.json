@@ -4,6 +4,10 @@
   "module": "index.js",
   "es2015": "es6/index.js",
   "main": "bundles/jasmine-marbles.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synapse-wireless-labs/jasmine-marbles.git"
+  },
   "license": "MIT",
   "scripts": {
     "clean": "rimraf release",
@@ -17,7 +21,8 @@
     "test:unit": "node ./tests.js",
     "test": "nyc yarn run test:unit",
     "precommit": "yarn run prettier",
-    "prettier": "prettier --parser typescript --single-quote --trailing-comma all --write \"./**/*.ts\""
+    "prettier": "prettier --parser typescript --single-quote --trailing-comma all --write \"./**/*.ts\"",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "nyc": {
     "extension": [
@@ -35,6 +40,8 @@
     "@types/jasmine": "^2.8.0",
     "@types/lodash": "^4.14.106",
     "@types/node": "^8.0.14",
+    "conventional-changelog": "^3.1.12",
+    "conventional-changelog-cli": "^2.0.25",
     "cpy-cli": "^1.0.1",
     "husky": "^0.14.3",
     "jasmine": "^2.8.0",
