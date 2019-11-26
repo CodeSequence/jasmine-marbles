@@ -56,10 +56,10 @@ declare global {
 }
 
 /*
-* Based on source code found in rxjs library
-* https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
-*
-*/
+ * Based on source code found in rxjs library
+ * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
+ *
+ */
 function materializeInnerObservable(
   observable: Observable<any>,
   outerFrame: number,

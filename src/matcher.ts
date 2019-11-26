@@ -202,24 +202,104 @@
  limitations under the License.
  */
 
-import { isEqual } from 'lodash';
-
 function stringify(x: any): string {
   return JSON.stringify(x, function(key, value) {
+    if (key === 'value' && value && typeof value === 'object') {
+      return '\n\t\t' + stringify(value) + '\n\t';
+    }
     if (Array.isArray(value)) {
-      return (
-        '[' +
-        value.map(function(i) {
-          return '\n\t' + stringify(i);
-        }) +
-        '\n]'
-      );
+      if (!value.length) {
+        return '[]';
+      } else {
+        if (
+          value.every(v => (v && typeof v !== 'object') || v === '') &&
+          value.reduce((sum, v) => sum + (v.length || 0), 0) < 100
+        ) {
+          return value; //for an array of no object, if it's short, keep it all on same line.
+        } else {
+          return (
+            '[' +
+            value.map(function(i) {
+              return '\n\t\t\t' + stringify(i);
+            }) +
+            '\n\t\t]'
+          );
+        }
+      }
     }
     return value;
   })
     .replace(/\\"/g, '"')
     .replace(/\\t/g, '\t')
     .replace(/\\n/g, '\n');
+}
+
+const replacer = (_: any, value: any) => {
+  if (Array.isArray(value)) {
+    return value.slice().sort();
+  } else if (value instanceof Object) {
+    return Object.keys(value)
+      .sort()
+      .reduce((sorted: { [key: string]: any }, key) => {
+        sorted[key] = value[key];
+        return sorted;
+      }, {});
+  } else {
+    return value;
+  }
+};
+interface frameObj {
+  frame: number;
+  notification: notification;
+}
+interface notification {
+  kind: string; //"N" | "E"
+  value: any;
+  hasValue: boolean;
+}
+/**
+ * transform an array of notification into a marble string.
+ * @param arr
+ * @param notifToString
+ */
+function marbelise(
+  arr: frameObj[],
+  notifToString: (notif: notification) => string | null,
+) {
+  let currentFrame = 0;
+  let currentGroup: any[] = [];
+  let acc = '';
+  arr.forEach(elem => {
+    if (elem.frame !== currentFrame) {
+      if (currentGroup.length) {
+        if (currentGroup.length === 1) {
+          acc += notifToString(currentGroup[0]);
+        } else {
+          acc += '(' + currentGroup.map(e => notifToString(e)).join('') + ')';
+        }
+        currentFrame++;
+        currentGroup = [];
+      }
+      //add time marker.
+      const missingTime = elem.frame - currentFrame;
+      //console.log("missingTime", missingTime, elem.frame, currentFrame)
+      currentFrame = elem.frame;
+      acc += '-'.repeat(missingTime);
+    }
+    currentGroup.push(elem.notification);
+  });
+
+  if (currentGroup.length) {
+    if (currentGroup.length === 1) {
+      acc += notifToString(currentGroup[0]);
+    } else {
+      acc += '(' + currentGroup.map(e => notifToString(e)).join('') + ')';
+    }
+    currentFrame++;
+    currentGroup = [];
+  }
+
+  return acc;
 }
 
 function deleteErrorNotificationStack(marble: any) {
@@ -236,22 +316,75 @@ function deleteErrorNotificationStack(marble: any) {
   return marble;
 }
 
+function getNotificationToString() {
+  const valueMap: Map<string, string> = new Map();
+
+  let charIndex = 0;
+  //note : m and s are not here to prevent confusion between time and event.
+  const charList =
+    '0123456789abcdefghijklnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  //alway return a new char.
+  function getNewChar(): string {
+    charIndex++;
+    if (charIndex >= charList.length) {
+      //To much different value for the marbelisation.
+      return '?';
+    }
+    return charList[charIndex];
+  }
+  function notifToString(notification: notification): string {
+    if (notification.kind !== 'N') {
+      console.log(notification);
+    }
+    const value = notification.value;
+    const strVal = JSON.stringify(value, replacer);
+    if (!valueMap.has(strVal)) {
+      valueMap.set(strVal, getNewChar());
+    }
+    return valueMap.get(strVal) || '?';
+  }
+  return {
+    notifToString: notifToString,
+    valueMap: valueMap,
+  };
+}
+
 export function observableMatcher(actual: any, expected: any) {
   if (Array.isArray(actual) && Array.isArray(expected)) {
-    actual = actual.map(deleteErrorNotificationStack);
-    expected = expected.map(deleteErrorNotificationStack);
-    const passed: any = isEqual(actual, expected);
-    if (passed) {
-      return;
+    //we suppose actual and expected are frameObj
+    const actualFrames: frameObj[] = actual.map(deleteErrorNotificationStack);
+    const expectedFrames: frameObj[] = expected.map(
+      deleteErrorNotificationStack,
+    );
+
+    const { notifToString, valueMap } = getNotificationToString();
+    const marbleActual = marbelise(actualFrames, notifToString);
+    const marbleExpected = marbelise(expectedFrames, notifToString);
+
+    if (marbleActual === marbleExpected) {
+      return; //test pass!
     }
+    const actualStr = actualFrames.map(x => `\t${stringify(x)}`).join('\n');
+    const expectedStr = expectedFrames.map(x => `\t${stringify(x)}`).join('\n');
 
-    let message = '\nExpected \n';
-    actual.forEach((x: any) => (message += `\t${stringify(x)}\n`));
+    const valueStr = Array.from(valueMap.entries())
+      .map(([key, value]) => `\t${value} : ${JSON.stringify(key)}`)
+      .join('\n');
+    const message = `
+Expected :
+${actualStr}
+to deep equal :
+${expectedStr}
 
-    message += '\t\nto deep equal \n';
-    expected.forEach((x: any) => (message += `\t${stringify(x)}\n`));
-
-    expect(passed).toEqual(message);
+Marble :
+actual   : ${marbleActual}
+expected : ${marbleExpected}
+value :
+{
+${valueStr}
+}
+`;
+    fail(message);
   } else {
     expect(actual).toEqual(expected);
   }

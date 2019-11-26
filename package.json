@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.0",
-    "@types/lodash": "^4.14.106",
     "@types/node": "^8.0.14",
     "conventional-changelog": "^3.1.12",
     "conventional-changelog-cli": "^2.0.25",
@@ -56,8 +55,5 @@
   },
   "peerDependencies": {
     "rxjs": "^6.4.0"
-  },
-  "dependencies": {
-    "lodash": "^4.17.12"
   }
 }
