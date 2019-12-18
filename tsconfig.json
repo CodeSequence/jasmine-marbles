@@ -12,7 +12,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "inlineSources": true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es2015", "ES2019", "dom"],
     "target": "es5",
     "skipLibCheck": true,
     "strictNullChecks": true,

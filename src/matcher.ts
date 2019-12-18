@@ -236,7 +236,7 @@ function stringify(x: any): string {
 
 const replacer = (_: any, value: any) => {
   if (Array.isArray(value)) {
-    return value.slice().sort();
+    return value.slice();
   } else if (value instanceof Object) {
     return Object.keys(value)
       .sort()
@@ -251,32 +251,59 @@ const replacer = (_: any, value: any) => {
 interface frameObj {
   frame: number;
   notification: notification;
+  serie : number;
 }
 interface notification {
   kind: string; //"N" | "E"
   value: any;
   hasValue: boolean;
 }
+
 /**
  * transform an array of notification into a marble string.
  * @param arr
  * @param notifToString
  */
 function marbelise(
-  arr: frameObj[],
   notifToString: (notif: notification) => string | null,
+  ...arrOfArr: frameObj[][]
 ) {
   let currentFrame = 0;
-  let currentGroup: any[] = [];
-  let acc = '';
+  let currentGroup: frameObj[] = [];
+  const marbleString = arrOfArr.map(() => "");
+
+  //create a single array of frame.
+  const arr = arrOfArr.flatMap((arr, i) => {
+    return arr.map(elem => {
+      return {...elem, serie : i};
+    });
+  });
+  //sort all frame.
+  arr.sort((e1, e2) => e1.frame - e2.frame);
   arr.forEach(elem => {
     if (elem.frame !== currentFrame) {
+      //previous group ended.
       if (currentGroup.length) {
-        if (currentGroup.length === 1) {
-          acc += notifToString(currentGroup[0]);
-        } else {
-          acc += '(' + currentGroup.map(e => notifToString(e)).join('') + ')';
-        }
+        const frameStringBySerie = arrOfArr.map((_, i) => 
+          currentGroup.filter(elem => elem.serie === i)
+        ).map((currentGroupInSerie, i) => {
+          if(currentGroupInSerie.length === 1) {
+            return notifToString(currentGroupInSerie[0].notification) || "?";
+          } else if(currentGroupInSerie.length > 1) {
+            return '(' + currentGroupInSerie.map(e => notifToString(e.notification) || "?").join('') + ')'
+          } else {
+            return "-";
+          }
+        });
+        
+        const frameSize = Math.max(...frameStringBySerie.map(s => s.length))
+        //ajuste size of frame
+        frameStringBySerie.map(s => {
+          return s + " ".repeat(frameSize - s.length);
+        }).forEach((s, i) => {
+          marbleString[i] += s;
+        })
+
         currentFrame++;
         currentGroup = [];
       }
@@ -284,22 +311,40 @@ function marbelise(
       const missingTime = elem.frame - currentFrame;
       //console.log("missingTime", missingTime, elem.frame, currentFrame)
       currentFrame = elem.frame;
-      acc += '-'.repeat(missingTime);
+      let timeStr = missingTime > 6 ? ` ${missingTime}ms ` : '-'.repeat(missingTime);
+      marbleString.forEach((s, i) => {
+        marbleString[i] += timeStr;
+      })
     }
-    currentGroup.push(elem.notification);
+    currentGroup.push(elem);
   });
 
   if (currentGroup.length) {
-    if (currentGroup.length === 1) {
-      acc += notifToString(currentGroup[0]);
-    } else {
-      acc += '(' + currentGroup.map(e => notifToString(e)).join('') + ')';
-    }
+    const frameStringBySerie = arrOfArr.map((_, i) => 
+      currentGroup.filter(elem => elem.serie === i)
+    ).map((currentGroupInSerie, i) => {
+      if(currentGroupInSerie.length === 1) {
+        return notifToString(currentGroupInSerie[0].notification) || "?";
+      } else if(currentGroupInSerie.length > 1) {
+        return '(' + currentGroupInSerie.map(e => notifToString(e.notification) || "?").join('') + ')'
+      } else {
+        return "";
+      }
+    });
+    
+    const frameSize = Math.max(...frameStringBySerie.map(s => s.length))
+    //ajuste size of frame
+    frameStringBySerie.map(s => {
+      return (s.length > 0 ? s : "-") + " ".repeat(frameSize - s.length);
+    }).forEach((s, i) => {
+      marbleString[i] += s;
+    })
+
     currentFrame++;
     currentGroup = [];
   }
 
-  return acc;
+  return marbleString;
 }
 
 function deleteErrorNotificationStack(marble: any) {
@@ -358,8 +403,7 @@ export function observableMatcher(actual: any, expected: any) {
     );
 
     const { notifToString, valueMap } = getNotificationToString();
-    const marbleActual = marbelise(actualFrames, notifToString);
-    const marbleExpected = marbelise(expectedFrames, notifToString);
+    const [marbleActual, marbleExpected] = marbelise(notifToString, actualFrames, expectedFrames);
 
     if (marbleActual === marbleExpected) {
       return; //test pass!
