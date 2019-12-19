@@ -203,7 +203,8 @@
  */
 
 function stringify(x: any): string {
-  return JSON.stringify(x, function(key, value) {
+  
+  const str = JSON.stringify(x, function(key, value) {
     if (key === 'value' && value && typeof value === 'object') {
       return '\n\t\t' + stringify(value) + '\n\t';
     }
@@ -229,6 +230,7 @@ function stringify(x: any): string {
     }
     return value;
   })
+  return str && str
     .replace(/\\"/g, '"')
     .replace(/\\t/g, '\t')
     .replace(/\\n/g, '\n');
@@ -378,7 +380,9 @@ function getNotificationToString() {
     return charList[charIndex];
   }
   function notifToString(notification: notification): string {
-    if (notification.kind !== 'N') {
+    if(notification.kind === "C") {
+      return "|";
+    } else if (notification.kind !== 'N') {
       console.log(notification);
     }
     const value = notification.value;
