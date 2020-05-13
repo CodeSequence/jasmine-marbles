@@ -103,4 +103,12 @@ describe('Integration', () => {
       expectObservable(provided).toBe('------(a|)', { a: val });
     });
   });
+
+  it('should support "not.toBeObservable"', () => {
+    const provided = of(1);
+
+    const expected = cold('(b|)', { b: 2 });
+
+    expect(provided).not.toBeObservable(expected);
+  });
 });
