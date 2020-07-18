@@ -13,6 +13,8 @@ import {
   TestHotObservable,
   TestObservable,
 } from './src/test-observables';
+import { unparseMarble } from './src/marble-unparser';
+import { mapSymbolsToNotifications } from './src/map-symbols-to-notifications';
 
 export {
   getTestScheduler,
@@ -105,7 +107,7 @@ export function addMatchers() {
         return { pass: true };
       },
     }),
-    toBeObservable: () => ({
+    toBeObservable: (utils, equalityTester) => ({
       compare: function(actual: TestObservable, fixture: TestObservable) {
         const results: TestMessage[] = [];
         let subscription: Subscription;
@@ -150,12 +152,63 @@ export function addMatchers() {
           true,
         );
 
-        expect(results).toEqual(expected);
+        if (utils.equals(results, expected)) {
+          return { pass: true };
+        }
 
-        return { pass: true };
+        const mapNotificationToSymbol = buildNotificationToSymbolMapper(
+          fixture.marbles,
+          expected,
+          utils.equals,
+        );
+        const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
+
+        const message = formatMessage(
+          fixture.marbles,
+          expected,
+          receivedMarble,
+          results,
+        );
+        return { pass: false, message };
       },
     }),
   });
+}
+
+function buildNotificationToSymbolMapper(
+  expectedMarbles: string,
+  expectedMessages: TestMessage[],
+  equalityFn: (a: any, b: any) => boolean,
+) {
+  const symbolsToNotificationsMap = mapSymbolsToNotifications(
+    expectedMarbles,
+    expectedMessages,
+  );
+  return (notification: Notification<any>) => {
+    const mapped = Object.keys(symbolsToNotificationsMap).find(key => {
+      return equalityFn(symbolsToNotificationsMap[key], notification);
+    })!;
+
+    return mapped || '?';
+  };
+}
+
+function formatMessage(
+  expectedMarbles: string,
+  expectedMessages: TestMessage[],
+  receivedMarbles: string,
+  receivedMessages: TestMessage[],
+) {
+  return `
+    Expected: ${expectedMarbles},
+    Received: ${receivedMarbles},
+    
+    Expected:
+    ${JSON.stringify(expectedMessages)}
+    
+    Received:
+    ${JSON.stringify(receivedMessages)},
+  `;
 }
 
 export function setupEnvironment() {
