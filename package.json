@@ -1,5 +1,12 @@
 {
   "name": "jasmine-marbles",
+  "description": "Marble testing helpers for RxJS and Jasmine",
+  "keywords": [
+    "jasmine",
+    "rxjs",
+    "ngrx",
+    "testing"
+  ],
   "version": "0.6.0",
   "module": "index.js",
   "es2015": "es6/index.js",
@@ -8,6 +15,8 @@
     "type": "git",
     "url": "https://github.com/synapse-wireless-labs/jasmine-marbles.git"
   },
+  "homepage": "https://github.com/synapse-wireless-labs/jasmine-marbles#readme",
+  "bugs": "https://github.com/synapse-wireless-labs/jasmine-marbles/issues",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf release",
