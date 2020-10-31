@@ -45,14 +45,14 @@ export function time(marbles: string): number {
 declare global {
   namespace jasmine {
     interface Matchers<T> {
-      toBeObservable: any;
-      toHaveSubscriptions: any;
+      toBeObservable(expected: TestObservable): boolean;
+      toHaveSubscriptions(marbles: string | string[]): boolean;
     }
   }
   namespace jest {
     interface Matchers<R> {
-      toBeObservable: any;
-      toHaveSubscriptions: any;
+      toBeObservable(expected: TestObservable): R;
+      toHaveSubscriptions(marbles: string | string[]): R;
     }
   }
 }
