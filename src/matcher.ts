@@ -242,6 +242,7 @@ export function observableMatcher(actual: any, expected: any) {
     expected = expected.map(deleteErrorNotificationStack);
     const passed: any = isEqual(actual, expected);
     if (passed) {
+      expect(passed).toBe(true);
       return;
     }
 
