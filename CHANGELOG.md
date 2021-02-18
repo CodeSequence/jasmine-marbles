@@ -1,3 +1,18 @@
+# [0.7.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/v0.6.0...v0.7.0) (2021-02-18)
+
+
+### Bug Fixes
+
+* remove warning for spec with no expectations ([#60](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/60)) ([aa28304](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/aa2830465a9e0a890c6a7a080a2e902ea7650144)), closes [#59](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/59)
+
+
+### Features
+
+* add better error reporting/tests/bug fixes ([#55](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/55)) ([a1fca8d](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/a1fca8d53505f5e74a79f48d02d9dbda46e4a5d1)), closes [#51](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/51) [#11](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/11)
+* add proper types for matchers ([#58](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/58)) ([89bf847](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/89bf847d1ea8ecb2be172b452376262b0a4fb64a))
+
+
+
 # [0.6.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/v0.5.0...v0.6.0) (2019-10-19)
 
 
