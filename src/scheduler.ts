@@ -6,6 +6,7 @@ let scheduler: TestScheduler | null;
 
 export function initTestScheduler(): void {
   scheduler = new TestScheduler(observableMatcher);
+  scheduler['runMode'] = true;
 }
 
 export function getTestScheduler(): TestScheduler {
