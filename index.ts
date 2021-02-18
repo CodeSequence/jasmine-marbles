@@ -1,5 +1,6 @@
 import { Notification, Observable, Subscription } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
+import { isEqual } from 'lodash';
 
 import {
   getTestScheduler,
@@ -151,14 +152,14 @@ export function addMatchers() {
           true,
         );
 
-        if (utils.equals(results, expected)) {
+        if (isEqual(results, expected)) {
           return { pass: true };
         }
 
         const mapNotificationToSymbol = buildNotificationToSymbolMapper(
           fixture.marbles,
           expected,
-          utils.equals,
+          isEqual,
         );
         const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
 
