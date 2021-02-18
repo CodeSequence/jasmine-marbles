@@ -1,6 +1,4 @@
 import { Notification, Observable, Subscription } from 'rxjs';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { TestScheduler } from 'rxjs/testing';
 
 import {
@@ -15,6 +13,7 @@ import {
 } from './src/test-observables';
 import { unparseMarble } from './src/marble-unparser';
 import { mapSymbolsToNotifications } from './src/map-symbols-to-notifications';
+import { TestMessages } from './src/types';
 
 export {
   getTestScheduler,
@@ -65,8 +64,8 @@ declare global {
 function materializeInnerObservable(
   observable: Observable<any>,
   outerFrame: number,
-): TestMessage[] {
-  const messages: TestMessage[] = [];
+): TestMessages {
+  const messages: TestMessages = [];
   const scheduler = getTestScheduler();
 
   observable.subscribe(
@@ -98,7 +97,7 @@ export function addMatchers() {
       compare: function(actual: TestObservable, marbles: string | string[]) {
         const marblesArray: string[] =
           typeof marbles === 'string' ? [marbles] : marbles;
-        const results: SubscriptionLog[] = marblesArray.map(marbles =>
+        const results = marblesArray.map(marbles =>
           TestScheduler.parseMarblesAsSubscriptions(marbles),
         );
 
@@ -109,7 +108,7 @@ export function addMatchers() {
     }),
     toBeObservable: (utils, equalityTester) => ({
       compare: function(actual: TestObservable, fixture: TestObservable) {
-        const results: TestMessage[] = [];
+        const results: TestMessages = [];
         let subscription: Subscription;
         const scheduler = getTestScheduler();
 
@@ -177,7 +176,7 @@ export function addMatchers() {
 
 function buildNotificationToSymbolMapper(
   expectedMarbles: string,
-  expectedMessages: TestMessage[],
+  expectedMessages: TestMessages,
   equalityFn: (a: any, b: any) => boolean,
 ) {
   const symbolsToNotificationsMap = mapSymbolsToNotifications(
@@ -195,9 +194,9 @@ function buildNotificationToSymbolMapper(
 
 function formatMessage(
   expectedMarbles: string,
-  expectedMessages: TestMessage[],
+  expectedMessages: TestMessages,
   receivedMarbles: string,
-  receivedMessages: TestMessage[],
+  receivedMessages: TestMessages,
 ) {
   return `
     Expected: ${expectedMarbles},

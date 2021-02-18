@@ -1,8 +1,9 @@
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Notification } from 'rxjs';
 
+import { TestMessages } from './types';
+
 export function unparseMarble(
-  result: TestMessage[],
+  result: TestMessages,
   assignSymbolFn: (a: Notification<any>) => string,
 ): string {
   const FRAME_TIME_FACTOR = 10; // need to be up to date with `TestScheduler.frameTimeFactor`

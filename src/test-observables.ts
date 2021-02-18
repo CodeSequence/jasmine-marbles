@@ -1,34 +1,23 @@
 import { Observable } from 'rxjs';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 
 import { getTestScheduler } from './scheduler';
-import { TestScheduler } from 'rxjs/testing';
-import { HotObservable } from 'rxjs/internal/testing/HotObservable';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
+import { SubscriptionLogs } from './types';
 
 export class TestColdObservable extends Observable<any> {
   constructor(
     public marbles: string,
-    public values?: any[],
+    public values?: { [name: string]: any },
     public error?: any,
   ) {
     super();
 
     const scheduler = getTestScheduler();
+    const cold = scheduler.createColdObservable(marbles, values, error);
 
-    const messages = TestScheduler.parseMarbles(
-      marbles,
-      values,
-      error,
-      undefined,
-      true,
-    );
-    const cold = new ColdObservable<any>(messages, scheduler);
     this.source = cold;
-    scheduler.coldObservables.push(cold);
   }
 
-  getSubscriptions(): SubscriptionLog[] {
+  getSubscriptions(): SubscriptionLogs[] {
     return (this.source as any)['subscriptions'];
   }
 }
@@ -36,26 +25,18 @@ export class TestColdObservable extends Observable<any> {
 export class TestHotObservable extends Observable<any> {
   constructor(
     public marbles: string,
-    public values?: any[],
+    public values?: { [name: string]: any },
     public error?: any,
   ) {
     super();
 
     const scheduler = getTestScheduler();
+    const hot = scheduler.createHotObservable(marbles, values, error);
 
-    const messages = TestScheduler.parseMarbles(
-      marbles,
-      values,
-      error,
-      undefined,
-      true,
-    );
-    const hot = new HotObservable<any>(messages, scheduler);
     this.source = hot;
-    scheduler.hotObservables.push(hot);
   }
 
-  getSubscriptions(): SubscriptionLog[] {
+  getSubscriptions(): SubscriptionLogs[] {
     return (this.source as any)['subscriptions'];
   }
 }

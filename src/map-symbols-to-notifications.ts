@@ -1,9 +1,10 @@
-import { TestMessage } from 'rxjs/internal/testing/TestMessage';
 import { Notification } from 'rxjs';
+
+import { TestMessages } from './types';
 
 export function mapSymbolsToNotifications(
   marbles: string,
-  messagesArg: TestMessage[],
+  messagesArg: TestMessages,
 ): { [key: string]: Notification<any> } {
   const messages = messagesArg.slice();
   const result: { [key: string]: Notification<any> } = {};
