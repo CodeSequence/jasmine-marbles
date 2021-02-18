@@ -7,7 +7,7 @@
     "ngrx",
     "testing"
   ],
-  "version": "0.8.0",
+  "version": "0.8.1",
   "module": "index.js",
   "es2015": "es6/index.js",
   "main": "bundles/jasmine-marbles.umd.js",

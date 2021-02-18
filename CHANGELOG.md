@@ -1,3 +1,12 @@
+## [0.8.1](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.0...0.8.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* use lodash for internal isEqual check ([#65](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/65)) ([76bd638](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/76bd63898b7a3debe166a886c517c696bb91218d))
+
+
+
 # [0.8.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.7.0...0.8.0) (2021-02-18)
 
 
