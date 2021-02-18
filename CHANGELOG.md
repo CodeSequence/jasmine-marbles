@@ -1,4 +1,26 @@
-# [0.7.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/v0.6.0...v0.7.0) (2021-02-18)
+# [0.8.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.7.0...0.8.0) (2021-02-18)
+
+
+### Code Refactoring
+
+* remove usage of internal RxJS testing APIs ([#64](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/64)) ([fb4d603](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/fb4d603fc28e634c88d404221bb003059d7c9557)), closes [#39](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/39) [#44](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/44)
+
+
+### BREAKING CHANGES
+
+* RxJS minimum peer dependency has been updated
+
+BEFORE:
+
+RxJS minimum peer dependency is ^6.4.0
+
+AFTER:
+
+RxJS minimum peer dependency is ^6.5.3
+
+
+
+# [0.7.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/v0.6.0...0.7.0) (2021-02-18)
 
 
 ### Bug Fixes
