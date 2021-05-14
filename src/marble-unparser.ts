@@ -1,10 +1,10 @@
-import { Notification } from 'rxjs';
+import { ObservableNotification } from 'rxjs';
 
 import { TestMessages } from './types';
 
 export function unparseMarble(
   result: TestMessages,
-  assignSymbolFn: (a: Notification<any>) => string,
+  assignSymbolFn: (a: ObservableNotification<any>) => string,
 ): string {
   const FRAME_TIME_FACTOR = 10; // need to be up to date with `TestScheduler.frameTimeFactor`
   let frames = 0;

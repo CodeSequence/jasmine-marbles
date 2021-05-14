@@ -1,13 +1,13 @@
-import { Notification } from 'rxjs';
+import { ObservableNotification } from 'rxjs';
 
 import { TestMessages } from './types';
 
 export function mapSymbolsToNotifications(
   marbles: string,
   messagesArg: TestMessages,
-): { [key: string]: Notification<any> } {
+): { [key: string]: ObservableNotification<any> } {
   const messages = messagesArg.slice();
-  const result: { [key: string]: Notification<any> } = {};
+  const result: { [key: string]: ObservableNotification<any> } = {};
 
   for (let i = 0; i < marbles.length; i++) {
     const symbol = marbles[i];
