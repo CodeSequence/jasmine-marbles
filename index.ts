@@ -1,4 +1,11 @@
-import { Notification, Observable, Subscription } from 'rxjs';
+import {
+  CompleteNotification,
+  ErrorNotification,
+  NextNotification,
+  Observable,
+  ObservableNotification,
+  Subscription,
+} from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { isEqual } from 'lodash';
 
@@ -62,33 +69,45 @@ declare global {
 * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
 *
 */
-function materializeInnerObservable(
-  observable: Observable<any>,
+function materializeInnerObservable<T>(
+  observable: Observable<T>,
   outerFrame: number,
 ): TestMessages {
   const messages: TestMessages = [];
   const scheduler = getTestScheduler();
 
-  observable.subscribe(
-    value => {
+  observable.subscribe({
+    next: (value: any) => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createNext(value),
+        notification: {
+          kind: 'N',
+          value,
+          error: undefined,
+        } as NextNotification<T>,
       });
     },
-    err => {
+    error: (error: any) => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createError(err),
+        notification: {
+          kind: 'E',
+          value: undefined,
+          error,
+        } as ErrorNotification,
       });
     },
-    () => {
+    complete: () => {
       messages.push({
         frame: scheduler.frame - outerFrame,
-        notification: Notification.createComplete(),
+        notification: {
+          kind: 'C',
+          value: undefined,
+          error: undefined,
+        } as CompleteNotification,
       });
     },
-  );
+  });
   return messages;
 }
 
@@ -107,15 +126,15 @@ export function addMatchers() {
         return { pass: true };
       },
     }),
-    toBeObservable: (utils, equalityTester) => ({
+    toBeObservable: (_utils, _equalityTester) => ({
       compare: function(actual: TestObservable, fixture: TestObservable) {
         const results: TestMessages = [];
         let subscription: Subscription;
         const scheduler = getTestScheduler();
 
         scheduler.schedule(() => {
-          subscription = actual.subscribe(
-            (x: any) => {
+          subscription = actual.subscribe({
+            next: (x: any) => {
               let value = x;
 
               // Support Observable-of-Observables
@@ -125,22 +144,34 @@ export function addMatchers() {
 
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createNext(value),
+                notification: {
+                  kind: 'N',
+                  value,
+                  error: undefined,
+                } as NextNotification<any>,
               });
             },
-            (err: any) => {
+            error: (error: any) => {
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createError(err),
+                notification: {
+                  kind: 'E',
+                  value: undefined,
+                  error,
+                } as ErrorNotification,
               });
             },
-            () => {
+            complete: () => {
               results.push({
                 frame: scheduler.frame,
-                notification: Notification.createComplete(),
+                notification: {
+                  kind: 'C',
+                  value: undefined,
+                  error: undefined,
+                } as CompleteNotification,
               });
             },
-          );
+          });
         });
         scheduler.flush();
 
@@ -184,10 +215,10 @@ function buildNotificationToSymbolMapper(
     expectedMarbles,
     expectedMessages,
   );
-  return (notification: Notification<any>) => {
-    const mapped = Object.keys(symbolsToNotificationsMap).find(key => {
-      return equalityFn(symbolsToNotificationsMap[key], notification);
-    })!;
+  return (notification: ObservableNotification<any>) => {
+    const mapped = Object.keys(symbolsToNotificationsMap).find(key =>
+      equalityFn(symbolsToNotificationsMap[key], notification),
+    )!;
 
     return mapped || '?';
   };
