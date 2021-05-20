@@ -243,10 +243,10 @@ function formatMessage(
 }
 
 export function setupEnvironment() {
-  jasmine.getEnv().beforeAll(() => addMatchers());
+  beforeAll(() => addMatchers());
 
-  jasmine.getEnv().beforeEach(() => initTestScheduler());
-  jasmine.getEnv().afterEach(() => {
+  beforeEach(() => initTestScheduler());
+  afterEach(() => {
     getTestScheduler().flush();
     resetTestScheduler();
   });
