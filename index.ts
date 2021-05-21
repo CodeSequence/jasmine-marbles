@@ -65,10 +65,10 @@ declare global {
 }
 
 /*
-* Based on source code found in rxjs library
-* https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
-*
-*/
+ * Based on source code found in rxjs library
+ * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
+ *
+ */
 function materializeInnerObservable<T>(
   observable: Observable<T>,
   outerFrame: number,
@@ -114,10 +114,10 @@ function materializeInnerObservable<T>(
 export function addMatchers() {
   jasmine.addMatchers({
     toHaveSubscriptions: () => ({
-      compare: function(actual: TestObservable, marbles: string | string[]) {
+      compare: function (actual: TestObservable, marbles: string | string[]) {
         const marblesArray: string[] =
           typeof marbles === 'string' ? [marbles] : marbles;
-        const results = marblesArray.map(marbles =>
+        const results = marblesArray.map((marbles) =>
           TestScheduler.parseMarblesAsSubscriptions(marbles),
         );
 
@@ -127,7 +127,7 @@ export function addMatchers() {
       },
     }),
     toBeObservable: (_utils, _equalityTester) => ({
-      compare: function(actual: TestObservable, fixture: TestObservable) {
+      compare: function (actual: TestObservable, fixture: TestObservable) {
         const results: TestMessages = [];
         let subscription: Subscription;
         const scheduler = getTestScheduler();
@@ -216,7 +216,7 @@ function buildNotificationToSymbolMapper(
     expectedMessages,
   );
   return (notification: ObservableNotification<any>) => {
-    const mapped = Object.keys(symbolsToNotificationsMap).find(key =>
+    const mapped = Object.keys(symbolsToNotificationsMap).find((key) =>
       equalityFn(symbolsToNotificationsMap[key], notification),
     )!;
 
