@@ -46,15 +46,14 @@
     ]
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.0",
+    "@types/jasmine": "^3.7.4",
     "@types/lodash": "^4.14.106",
     "@types/node": "^8.0.14",
     "conventional-changelog": "^3.1.12",
     "conventional-changelog-cli": "^2.0.25",
     "cpy-cli": "^1.0.1",
     "husky": "^0.14.3",
-    "jasmine": "^2.8.0",
-    "jasmine-core": "^2.8.0",
+    "jasmine": "^3.7.0",
     "nyc": "^14",
     "prettier": "^1.5.2",
     "rimraf": "^2.6.1",
