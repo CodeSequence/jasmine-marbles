@@ -2,7 +2,7 @@
 
 # Opt-in to newer CircleCI system
 # Complete documentation is at https://circleci.com/docs/2.0/
-version: 2
+version: 2.1
 
 # Note: YAML anchors allow an object to be re-used, reducing duplication.
 # The ampersand declares an alias for an object, then later the `<<: *name`
@@ -10,10 +10,10 @@ version: 2
 # See https://blog.daemonl.com/2016/02/yaml.html
 # To validate changes, use an online parser, eg.
 # https://yaml-online-parser.appspot.com/
-var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}-0.1
+var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}-0.8.1
 var_2: &run_in_node
   docker:
-    - image: circleci/node:10.12
+    - image: cimg/node:14.17.0
 
 jobs:
   install:
