@@ -1,13 +1,15 @@
 export default {
-  entry: './release/es6/index.js',
-  dest: './release/bundles/jasmine-marbles.umd.js',
-  format: 'umd',
-  moduleName: 'jasmine-marbles',
-  globals: {
-    'rxjs': 'Rx',
-    'rxjs/testing': 'Rx',
-    'lodash': '_'
-  },
+  input: './release/es6/index.js',
+  output:  {
+    file:   './release/bundles/jasmine-marbles.umd.js',
+    name:  'jasmine-marbles',
+    format: 'umd',
+    globals: {
+      'rxjs': 'Rx',
+      'rxjs/testing': 'Rx',
+      'lodash': '_'
+    },
+  }, 
   external: [
     'rxjs',
     'rxjs/testing',
