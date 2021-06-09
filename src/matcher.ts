@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 /**
                                 Apache License
                          Version 2.0, January 2004
@@ -204,8 +206,11 @@
 
 import { isEqual } from 'lodash';
 
+/**
+ * @see https://github.com/ReactiveX/rxjs/blob/master/spec/helpers/observableMatcher.ts
+ */
 function stringify(x: any): string {
-  return JSON.stringify(x, function (key, value) {
+  return JSON.stringify(x, function(_key: string, value: any) {
     if (Array.isArray(value)) {
       return (
         '[' +
@@ -222,25 +227,28 @@ function stringify(x: any): string {
     .replace(/\\n/g, '\n');
 }
 
+/**
+ * @see https://github.com/ReactiveX/rxjs/blob/master/spec/helpers/observableMatcher.ts
+ */
 function deleteErrorNotificationStack(marble: any) {
   const { notification } = marble;
   if (notification) {
-    const { kind, exception } = notification;
-    if (kind === 'E' && exception instanceof Error) {
-      notification.exception = {
-        name: exception.name,
-        message: exception.message,
-      };
+    const { kind, error } = notification;
+    if (kind === 'E' && error instanceof Error) {
+      notification.error = { name: error.name, message: error.message };
     }
   }
   return marble;
 }
 
-export function observableMatcher(actual: any, expected: any) {
+/**
+ * @see https://github.com/ReactiveX/rxjs/blob/master/spec/helpers/observableMatcher.ts
+ */
+export function observableMatcher(actual: any, expected: any): void {
   if (Array.isArray(actual) && Array.isArray(expected)) {
     actual = actual.map(deleteErrorNotificationStack);
     expected = expected.map(deleteErrorNotificationStack);
-    const passed: any = isEqual(actual, expected);
+    const passed = isEqual(actual, expected);
     if (passed) {
       expect(passed).toBe(true);
       return;
@@ -252,7 +260,7 @@ export function observableMatcher(actual: any, expected: any) {
     message += '\t\nto deep equal \n';
     expected.forEach((x: any) => (message += `\t${stringify(x)}\n`));
 
-    expect(passed).toEqual(message);
+    fail(message);
   } else {
     expect(actual).toEqual(expected);
   }
