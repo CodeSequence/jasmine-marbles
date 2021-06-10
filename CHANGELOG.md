@@ -1,3 +1,29 @@
+# [0.9.0-beta.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.1...0.9.0-beta.0) (2021-06-10)
+
+
+### Features
+
+* update RxJS dependencies to 7.x.x ([#67](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/67)) ([a7fb790](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/a7fb7904476f07199f3cc8fb9f1cac5a6133a8e8))
+
+
+### BREAKING CHANGES
+
+* Minimum dependencies for TypeScript and RxJS have been updated.
+
+BEFORE:
+
+Minimum dependencies:
+TypeScript 4.1.x
+RxJS 6.5.x
+
+AFTER:
+
+Minimum dependencies:
+TypeScript 4.2.x
+RxJS 7.x.x
+
+
+
 ## [0.8.1](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.0...0.8.1) (2021-02-18)
 
 

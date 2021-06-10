@@ -9,5 +9,6 @@ Helpful Links
 
 # Supported RxJS versions
 
-* 0.2.0 supports RxJS 5.*.*
-* => 0.3.* supports RxJS 6.*.*
+* 0.2.0 supports RxJS 5.x
+* => 0.3.* supports RxJS 6.x
+* => 0.9.0 supports RxJS 7.x
