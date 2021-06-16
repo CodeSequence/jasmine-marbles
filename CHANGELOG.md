@@ -1,3 +1,7 @@
+# [0.9.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.9.0-beta.0...0.9.0) (2021-06-16)
+
+
+
 # [0.9.0-beta.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.1...0.9.0-beta.0) (2021-06-10)
 
 
