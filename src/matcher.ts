@@ -210,7 +210,7 @@ import { isEqual } from 'lodash';
  * @see https://github.com/ReactiveX/rxjs/blob/master/spec/helpers/observableMatcher.ts
  */
 function stringify(x: any): string {
-  return JSON.stringify(x, function(_key: string, value: any) {
+  return JSON.stringify(x, function (_key: string, value: any) {
     if (Array.isArray(value)) {
       return (
         '[' +
