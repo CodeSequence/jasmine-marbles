@@ -36,8 +36,11 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      # Build and Test
-      - run: yarn test
+      # Test w/jasmine as test runner
+      - run: yarn test --testRunner jest-jasmine2
+      # Test w/jest-circus as test runner
+      - run: yarn test --testRunner jest-circus
+      # Build
       - run: yarn build
 
 workflows:
