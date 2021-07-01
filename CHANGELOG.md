@@ -1,3 +1,12 @@
+# [0.10.0-beta.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.9.0...0.10.0-beta.0) (2021-07-01)
+
+
+### Features
+
+* add support for jest-circus ([#78](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/78)) ([bb9edf9](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/bb9edf9e7b0de7c6ca35da3995124d3180441dbd))
+
+
+
 # [0.9.0](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.9.0-beta.0...0.9.0) (2021-06-16)
 
 
