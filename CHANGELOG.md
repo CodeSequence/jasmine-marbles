@@ -1,3 +1,12 @@
+## [0.8.2](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.1...0.8.2) (2021-07-13)
+
+
+### Bug Fixes
+
+* add jest 27 compatibility ([#80](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/80)) ([4fac300](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/4fac3006b998646c4834aaac9487a58c948b94d4)), closes [#79](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/79)
+
+
+
 ## [0.8.1](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.0...0.8.1) (2021-02-18)
 
 
