@@ -92,87 +92,104 @@ function materializeInnerObservable(
   return messages;
 }
 
-export function addMatchers() {
-  jasmine.addMatchers({
-    toHaveSubscriptions: () => ({
-      compare: function(actual: TestObservable, marbles: string | string[]) {
-        const marblesArray: string[] =
-          typeof marbles === 'string' ? [marbles] : marbles;
-        const results = marblesArray.map(marbles =>
-          TestScheduler.parseMarblesAsSubscriptions(marbles),
-        );
+const toHaveSubscriptionsComparer = function(
+  actual: TestObservable,
+  marbles: string | string[],
+) {
+  const marblesArray: string[] =
+    typeof marbles === 'string' ? [marbles] : marbles;
+  const results = marblesArray.map(marbles =>
+    TestScheduler.parseMarblesAsSubscriptions(marbles),
+  );
 
-        expect(results).toEqual(actual.getSubscriptions());
+  expect(results).toEqual(actual.getSubscriptions());
 
-        return { pass: true };
-      },
-    }),
-    toBeObservable: (utils, equalityTester) => ({
-      compare: function(actual: TestObservable, fixture: TestObservable) {
-        const results: TestMessages = [];
-        let subscription: Subscription;
-        const scheduler = getTestScheduler();
+  return { pass: true };
+};
 
-        scheduler.schedule(() => {
-          subscription = actual.subscribe(
-            (x: any) => {
-              let value = x;
+const toBeObservableComparer = function(
+  actual: TestObservable,
+  fixture: TestObservable,
+) {
+  const results: TestMessages = [];
+  let subscription: Subscription;
+  const scheduler = getTestScheduler();
 
-              // Support Observable-of-Observables
-              if (x instanceof Observable) {
-                value = materializeInnerObservable(value, scheduler.frame);
-              }
+  scheduler.schedule(() => {
+    subscription = actual.subscribe(
+      (x: any) => {
+        let value = x;
 
-              results.push({
-                frame: scheduler.frame,
-                notification: Notification.createNext(value),
-              });
-            },
-            (err: any) => {
-              results.push({
-                frame: scheduler.frame,
-                notification: Notification.createError(err),
-              });
-            },
-            () => {
-              results.push({
-                frame: scheduler.frame,
-                notification: Notification.createComplete(),
-              });
-            },
-          );
-        });
-        scheduler.flush();
-
-        const expected = TestScheduler.parseMarbles(
-          fixture.marbles,
-          fixture.values,
-          fixture.error,
-          true,
-          true,
-        );
-
-        if (isEqual(results, expected)) {
-          return { pass: true };
+        // Support Observable-of-Observables
+        if (x instanceof Observable) {
+          value = materializeInnerObservable(value, scheduler.frame);
         }
 
-        const mapNotificationToSymbol = buildNotificationToSymbolMapper(
-          fixture.marbles,
-          expected,
-          isEqual,
-        );
-        const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
-
-        const message = formatMessage(
-          fixture.marbles,
-          expected,
-          receivedMarble,
-          results,
-        );
-        return { pass: false, message };
+        results.push({
+          frame: scheduler.frame,
+          notification: Notification.createNext(value),
+        });
       },
-    }),
+      (err: any) => {
+        results.push({
+          frame: scheduler.frame,
+          notification: Notification.createError(err),
+        });
+      },
+      () => {
+        results.push({
+          frame: scheduler.frame,
+          notification: Notification.createComplete(),
+        });
+      },
+    );
   });
+  scheduler.flush();
+
+  const expected = TestScheduler.parseMarbles(
+    fixture.marbles,
+    fixture.values,
+    fixture.error,
+    true,
+    true,
+  );
+
+  if (isEqual(results, expected)) {
+    return { pass: true };
+  }
+
+  const mapNotificationToSymbol = buildNotificationToSymbolMapper(
+    fixture.marbles,
+    expected,
+    isEqual,
+  );
+  const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
+
+  const message = formatMessage(
+    fixture.marbles,
+    expected,
+    receivedMarble,
+    results,
+  );
+  return { pass: false, message };
+};
+
+export function addMatchers() {
+  if (!(<any>expect).extend) {
+    jasmine.addMatchers({
+      toHaveSubscriptions: () => ({
+        compare: toHaveSubscriptionsComparer,
+      }),
+      toBeObservable: (utils, equalityTester) => ({
+        compare: toBeObservableComparer,
+      }),
+    });
+  } else {
+    (<any>expect).extend({
+      toHaveSubscriptions: toHaveSubscriptionsComparer,
+      toBeObservable: toBeObservableComparer,
+    });
+  }
 }
 
 function buildNotificationToSymbolMapper(
