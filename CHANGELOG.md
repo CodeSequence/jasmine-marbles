@@ -1,3 +1,12 @@
+## [0.8.3](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.2...0.8.3) (2021-07-14)
+
+
+### Bug Fixes
+
+* remove more jasmine references and use jest for integration tests ([#81](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/81)) ([26684da](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/26684da836954b33959d432917ae54b38deea7cd))
+
+
+
 ## [0.8.2](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.1...0.8.2) (2021-07-13)
 
 
