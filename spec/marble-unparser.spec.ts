@@ -40,7 +40,7 @@ describe('Marble unparser', () => {
         true,
       );
 
-      expect(unparseMarble(testMessage, n => 'a')).toBe(expectedMarble);
+      expect(unparseMarble(testMessage, (n) => 'a')).toBe(expectedMarble);
     }
   });
 });

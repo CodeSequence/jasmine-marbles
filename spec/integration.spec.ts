@@ -25,7 +25,9 @@ describe('Integration', () => {
 
     const expected = hot('--a--b', { a: 1, b: 2 });
 
-    expect(expected.pipe(tap(v => provided.next(v)))).toBeObservable(expected);
+    expect(expected.pipe(tap((v) => provided.next(v)))).toBeObservable(
+      expected,
+    );
   });
 
   it('should trim spaces of marble string, if any', () => {

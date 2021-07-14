@@ -58,10 +58,10 @@ declare global {
 }
 
 /*
-* Based on source code found in rxjs library
-* https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
-*
-*/
+ * Based on source code found in rxjs library
+ * https://github.com/ReactiveX/rxjs/blob/master/src/testing/TestScheduler.ts
+ *
+ */
 function materializeInnerObservable(
   observable: Observable<any>,
   outerFrame: number,
@@ -70,13 +70,13 @@ function materializeInnerObservable(
   const scheduler = getTestScheduler();
 
   observable.subscribe(
-    value => {
+    (value) => {
       messages.push({
         frame: scheduler.frame - outerFrame,
         notification: Notification.createNext(value),
       });
     },
-    err => {
+    (err) => {
       messages.push({
         frame: scheduler.frame - outerFrame,
         notification: Notification.createError(err),
@@ -92,22 +92,22 @@ function materializeInnerObservable(
   return messages;
 }
 
-const toHaveSubscriptionsComparer = function(
+const toHaveSubscriptionsComparer = function (
   actual: TestObservable,
   marbles: string | string[],
 ) {
   const marblesArray: string[] =
     typeof marbles === 'string' ? [marbles] : marbles;
-  const results = marblesArray.map(marbles =>
+  const results = marblesArray.map((marbles) =>
     TestScheduler.parseMarblesAsSubscriptions(marbles),
   );
 
   expect(results).toEqual(actual.getSubscriptions());
 
-  return { pass: true };
+  return { pass: true, message: () => '' };
 };
 
-const toBeObservableComparer = function(
+const toBeObservableComparer = function (
   actual: TestObservable,
   fixture: TestObservable,
 ) {
@@ -155,7 +155,7 @@ const toBeObservableComparer = function(
   );
 
   if (isEqual(results, expected)) {
-    return { pass: true };
+    return { pass: true, message: () => '' };
   }
 
   const mapNotificationToSymbol = buildNotificationToSymbolMapper(
@@ -171,7 +171,7 @@ const toBeObservableComparer = function(
     receivedMarble,
     results,
   );
-  return { pass: false, message };
+  return { pass: false, message: () => message };
 };
 
 export function addMatchers() {
@@ -202,7 +202,7 @@ function buildNotificationToSymbolMapper(
     expectedMessages,
   );
   return (notification: Notification<any>) => {
-    const mapped = Object.keys(symbolsToNotificationsMap).find(key => {
+    const mapped = Object.keys(symbolsToNotificationsMap).find((key) => {
       return equalityFn(symbolsToNotificationsMap[key], notification);
     })!;
 
@@ -229,10 +229,10 @@ function formatMessage(
 }
 
 export function setupEnvironment() {
-  jasmine.getEnv().beforeAll(() => addMatchers());
+  beforeAll(() => addMatchers());
 
-  jasmine.getEnv().beforeEach(() => initTestScheduler());
-  jasmine.getEnv().afterEach(() => {
+  beforeEach(() => initTestScheduler());
+  afterEach(() => {
     getTestScheduler().flush();
     resetTestScheduler();
   });
