@@ -13,7 +13,7 @@ version: 2
 var_1: &cache_key yarn-cache-{{ checksum "yarn.lock" }}-0.8.2
 var_2: &run_in_node
   docker:
-    - image: circleci/node:10.12
+    - image: cimg/node:14.17.0
 
 jobs:
   install:
@@ -36,8 +36,11 @@ jobs:
       - restore_cache:
           key: *cache_key
 
-      # Build and Test
-      - run: yarn test
+      # Test w/jasmine as test runner
+      - run: yarn test --testRunner jest-jasmine2
+      # Test w/jest-circus as test runner
+      - run: yarn test --testRunner jest-circus
+      # Build
       - run: yarn build
 
 workflows:
