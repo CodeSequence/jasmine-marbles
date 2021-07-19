@@ -216,15 +216,22 @@ function formatMessage(
   receivedMarbles: string,
   receivedMessages: TestMessages,
 ) {
+  /**
+   * Undefined values are stripped with JSON.stringify,
+   * so we substitute them with placeholder text,
+   * and convert back to undefined visually for comparison.
+   */
+  const replacer = (key: string, value: string) => (value === undefined) ? '__undefined' : value;
+
   return `
     Expected: ${expectedMarbles},
     Received: ${receivedMarbles},
     
     Expected:
-    ${JSON.stringify(expectedMessages)}
+    ${JSON.stringify(expectedMessages, replacer).replace(/"__undefined"/g, 'undefined')}
     
     Received:
-    ${JSON.stringify(receivedMessages)},
+    ${JSON.stringify(receivedMessages, replacer).replace(/"__undefined"/g, 'undefined')}
   `;
 }
 

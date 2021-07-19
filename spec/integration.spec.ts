@@ -113,4 +113,14 @@ describe('Integration', () => {
 
     expect(provided).not.toBeObservable(expected);
   });
+
+  it('should support comparison with undefined values', () => {
+    const data = { value: 1, included: undefined };
+    const result = { type: 'test', data };
+    const provided = of(result);
+
+    const expected = cold('(b|)', { b: { type: 'test', data: { value: 1 } }});
+
+    expect(provided).not.toBeObservable(expected);
+  });
 });
