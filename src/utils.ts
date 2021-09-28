@@ -135,24 +135,26 @@ export function toBeObservableComparer(
     true,
   );
 
-  if (isEqual(results, expected)) {
+  try {
+    expect(results).toEqual(expected);
+
     return { pass: true, message: () => '' };
+  } catch (e) {
+    const mapNotificationToSymbol = buildNotificationToSymbolMapper(
+      fixture.marbles,
+      expected,
+      isEqual,
+    );
+    const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
+
+    const message = formatMessage(
+      fixture.marbles,
+      expected,
+      receivedMarble,
+      results,
+    );
+    return { pass: false, message: () => message };
   }
-
-  const mapNotificationToSymbol = buildNotificationToSymbolMapper(
-    fixture.marbles,
-    expected,
-    isEqual,
-  );
-  const receivedMarble = unparseMarble(results, mapNotificationToSymbol);
-
-  const message = formatMessage(
-    fixture.marbles,
-    expected,
-    receivedMarble,
-    results,
-  );
-  return { pass: false, message: () => message };
 }
 
 function buildNotificationToSymbolMapper(
