@@ -1,3 +1,12 @@
+## [0.8.4](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.3...0.8.4) (2021-09-28)
+
+
+### Bug Fixes
+
+* fix comparison for undefined properties and value matchers with Jasmine and Jest ([#86](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/86)) ([8daba8e](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/8daba8ed1c187acfac76246c5d13095d9fc8d788)), closes [#66](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/66) [#76](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/76) [#84](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/84) [#85](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/85)
+
+
+
 ## [0.8.3](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.8.2...0.8.3) (2021-07-14)
 
 
