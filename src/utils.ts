@@ -8,6 +8,7 @@ import {
 } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { isEqual } from 'lodash';
+import { format as prettyFormat } from 'pretty-format';
 import { getTestScheduler } from './scheduler';
 import { TestObservable } from './test-observables';
 import { mapSymbolsToNotifications } from './map-symbols-to-notifications';
@@ -182,13 +183,13 @@ function formatMessage(
   receivedMessages: TestMessages,
 ) {
   return `
-    Expected: ${expectedMarbles},
-    Received: ${receivedMarbles},
+Expected: ${expectedMarbles},
+Received: ${receivedMarbles},
     
-    Expected:
-    ${JSON.stringify(expectedMessages)}
+Expected:
+${prettyFormat(expectedMessages)}
     
-    Received:
-    ${JSON.stringify(receivedMessages)},
+Received:
+${prettyFormat(receivedMessages)}
   `;
 }

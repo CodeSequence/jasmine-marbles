@@ -75,6 +75,7 @@
     "rxjs": "^7.0.0"
   },
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "pretty-format": "^27.4.2"
   }
 }
