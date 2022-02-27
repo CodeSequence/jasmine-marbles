@@ -68,7 +68,7 @@ export function addMatchers() {
       toHaveSubscriptions: () => ({
         compare: toHaveSubscriptionsComparer,
       }),
-      toBeObservable: (_utils, _equalityTester) => ({
+      toBeObservable: (_utils) => ({
         compare: toBeObservableComparer,
       }),
     });
