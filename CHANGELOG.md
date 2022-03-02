@@ -1,3 +1,12 @@
+## [0.9.2](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.9.1...0.9.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* remove equalityTested to avoid deprecation error with jasmine 4.0 ([#91](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/91)) ([06b849f](https://github.com/synapse-wireless-labs/jasmine-marbles/commit/06b849fb25d147e0fb5e44d2003993ac51a20919)), closes [#89](https://github.com/synapse-wireless-labs/jasmine-marbles/issues/89)
+
+
+
 ## [0.9.1](https://github.com/synapse-wireless-labs/jasmine-marbles/compare/0.10.0-beta.0...0.9.1) (2021-09-28)
 
 
